@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan Me 💘</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+  body {
+    background: pink;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: #b3005e;
+  }
+
+  #qrcode {
+    margin: 30px auto;
+    width: 250px;
+  }
+
+  #questionBox {
+    display: none;
+    margin-top: 40px;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+  }
+
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #noBtn {
+    background: #ccc;
+    position: absolute;
+  }
+
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 24px;
+    animation: float 5s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>📱 Scan this QR 💘</h1>
+
+<div id="qrcode"></div>
+
+<div id="questionBox">
+  <h1>💖 Will you be my Valentine? 💖</h1>
+  <button id="yesBtn" onclick="goLove()">YES 💕</button>
+  <button id="noBtn" onmouseover="moveNo()">NO 😢</button>
+</div>
+
+<script>
+  const siteURL = window.location.href.split("?")[0];
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: siteURL + "?love=true",
+    width: 250,
+    height: 250
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("love") === "true") {
+    document.getElementById("qrcode").style.display = "none";
+    document.querySelector("h1").style.display = "none";
+    document.getElementById("questionBox").style.display = "block";
+    startHearts();
+  }
+
+  function moveNo() {
+    const btn = document.getElementById("noBtn");
+    btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+  }
+
+  function goLove() {
+    window.location.href = "love.html";
+  }
+
+  function startHearts() {
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }, 300);
+  }
+</script>
+
+</body>
+</html>
